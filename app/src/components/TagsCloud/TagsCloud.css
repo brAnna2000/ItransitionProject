@@ -1,0 +1,12 @@
+.tags{
+    width: 600px;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.tagsSpan{
+    margin-right: 10px;
+}
+a {
+    color: #61dafb;
+}

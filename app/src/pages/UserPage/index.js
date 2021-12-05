@@ -10,13 +10,13 @@ function UserPage(props){
   const [text, setText] = useState('');
   const [post, setPost] = useState([]);
   const userId = window.location.pathname; 
-
+  
   useEffect(() => {
     fetch(userId)
     .then(responce=>responce.json())
     .then(responce=>setData(responce))
-  },[])
-
+  },[userId])
+  console.log(data)
   const Edit=(ev)=>{
     let sometext = '';
     if(data !=null & data.length >0){
@@ -26,32 +26,50 @@ function UserPage(props){
     let massiv = [];
     if(flag.length===0){
       for(let i=0;i<data.length;i++){
-        i === ev ? massiv.push(true) : massiv.push(false)
+        i == ev ? massiv.push(true) : massiv.push(false)
       }
       setFlag(massiv)
     }
     else if (flag.length>0){
       for(let i=0;i<data.length;i++){
-        i === ev ? massiv.push(!flag[i]) : massiv.push(false)
+        i == ev ? massiv.push(!flag[i]) : massiv.push(false)
       }
       setFlag(massiv)
       data[ev].text = text;
       setData(data)
+      fetch('/userpage/change',{
+        method: 'POST',
+        headers: new Headers({
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+        }),
+        mode: 'same-origin',
+        body: JSON.stringify(data[ev])
+      })
     }
   }
 
   const Delete=(ev)=>{
     let deleteArr = data.concat();
+    let deletePost = data[ev]
+    console.log(deletePost)
     deleteArr.splice(ev,1);
     setData(deleteArr)
+    fetch('/userpage/delete',{
+      method: 'POST',
+      headers: new Headers({
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      }),
+      mode: 'same-origin',
+      body: JSON.stringify(deletePost)
+    })
   }
   useEffect(() => {
-    console.log(post)
     if(post.name ==null){
       return
     }
     else{
-      console.log('tut')
         let info = JSON.stringify(post)
         fetch('/view',{
           method: 'POST',
@@ -115,6 +133,7 @@ function UserPage(props){
         </div>
       </div>
       <span>{review.group}</span> 
+      {review.tags[0]=="" ? <span></span> : <span>#{review.tags[0]}</span>}
       <Stars grade={review.grade}/>
       {flag[data.indexOf(review).toString()] !== true ? <p className='text'>{review.text}</p>: <textarea value={text} onChange={(event)=>{setText(event.target.value)}}></textarea>}
       <div>Картинки</div><span>{review.likes}</span>
@@ -125,7 +144,6 @@ function UserPage(props){
       <div className="App">
         {!data ? "Loading..." :
         <header>
-          <img src={logo} className="App-logo" alt="logo" />
           <div className='new'>
             <button onClick={()=>{ButtonClick()}}>Создать обзор</button>
           </div>

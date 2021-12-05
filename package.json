@@ -37,7 +37,7 @@
     "startapp": "npm run start --prefix app",
     "startdb": "npm start backend/db.js",
     "dev": "concurrently \"npm run start\" \"startapp\"",
-    "build": "react-scripts build",
+    "build": "concurrently \"cd ./app  && npm run start\" \"nodemon backend/index.js\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

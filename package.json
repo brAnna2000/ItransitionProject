@@ -27,7 +27,8 @@
   },
   "proxy": "http://localhost:3001/",
   "scripts": {
-    "start": "nodemon backend/index.js",
+    "start": "concurrently \"cd ./app && npm run start\" \"nodemon backend/index.js\"",
+    "start2": "nodemon backend/index.js",
     "startapp": "npm run start --prefix app",
     "startdb": "npm start backend/db.js",
     "dev": "concurrently \"npm run start\" \"startapp\"",

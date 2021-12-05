@@ -1,7 +1,6 @@
 import {React, useState, useEffect} from 'react';
 import './CreateReview.css';
-import logo from '../../logo.svg';
-
+import Loader from '../../components/Loader/index';
 function CreateReview() {
 let starsObj = {
     1: "fa fa-star",
@@ -52,7 +51,7 @@ useEffect(() => {
     }
 },[grade])
 let review = {};
-
+console.log(data)
 const Rating=(value)=>{
     for (var key in starsObj) {
         Number(value) >= Number(key) ? starsObj[key]="fa fa-star checked" : starsObj[key]="fa fa-star"
@@ -64,7 +63,7 @@ const Filter=(text)=>{
         setResult(null)
     }
     else{
-        setResult(data.filter(el=>{
+        setResult(data.tags.filter(el=>{
         return el.toLowerCase().includes(search.toLowerCase());
     }))
     }
@@ -76,19 +75,24 @@ const Send=()=>{
     }
     setGrade(a)
 }
+let OptionGroups = ''
+if (data !== null){
+    OptionGroups = data.groups.map((option) =>
+    <option value={option}>{option}</option>
+  );
+}
 return (
+    
 <div className="App">
+    {!data ? <Loader/> :
     <header>
-    <img src={logo} className="App-logo" alt="logo" />
     <div className='review'>
         <div><label htmlFor="name">Название обзора</label><input id="name" type="text" onChange={(event)=>{setName(event.target.value)}} value={name}/></div>
         <div><label htmlFor="name">Теги</label><input id="name" type="text" onChange={(event)=>{setSearch(event.target.value); Filter(search)}} value={search}/></div>
         <div>{!result ? '': result}</div>
         <span>Группа</span>
-        <select defaultValue="Кино" size="3" name="hero" onChange={(event)=>{setSelect(event.target.value)}}>
-        <option value="Кино">Кино</option>
-        <option value="Книги">Книги</option>
-        <option value="Игры">Игры</option>
+        <select defaultValue={data.groups[0]} size={data.groups.length} name="hero" onChange={(event)=>{setSelect(event.target.value)}}>
+            {OptionGroups}
         </select>
         <div>Оценка</div>
         <div>
@@ -109,6 +113,7 @@ return (
         <button className='userButton' name='enter' onClick={()=>{Send()}}>Сохранить</button>
     </div>
     </header>
+    }
 </div>
 );
 }

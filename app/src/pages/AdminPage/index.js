@@ -15,7 +15,6 @@ function AdminPage(props){
     <div className="App">
       {!data ? "Loading..." :
       <header>
-        <img src={logo} className="App-logo" alt="logo" />
         <UsersPages names={data}/>
       </header>
       }

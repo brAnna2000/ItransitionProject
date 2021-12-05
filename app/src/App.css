@@ -1,7 +1,20 @@
-.App{
+.light{
   background-color: #282c34;
   color: white;
   min-height: 100vh;
+  padding-top: 70px;
+}
+.light a{
+  color: '#61dafb';
+}
+.dark{
+  background-color: #949aa6;
+  color: #30446C;
+  min-height: 100vh;
+  padding-top: 70px;
+}
+.dark a{
+  color: #243860;
 }
 .App-logo {
   height: 40vmin;
@@ -13,14 +26,6 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
-/* .App-header { */
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
-  /* justify-content: center; */
-  /* font-size: calc(10px + 2vmin); */
-/* } */
 
 .App-link {
   color: #61dafb;
@@ -46,4 +51,9 @@
 }
 .reviewName {
   text-align: left;
+}
+.fa-sun, .fa-moon {
+  position: absolute;
+  top: 40px;
+  right: 50px;
 }

@@ -56,7 +56,7 @@ const routes = useRoutes(true);
         {back == true ? <i className="fas fa-sun" onClick={()=>{Click()}}></i> : <i className="fas fa-moon" onClick={()=>{Click()}}></i>}
           {routes}
           <div>
-            <div><label htmlFor="name">Имя</label><input id="name" type="text" onChange={(event)=>{setName(event.target.value)}} value={name}/></div>
+            <div><label htmlFor="name">Имя123</label><input id="name" type="text" onChange={(event)=>{setName(event.target.value)}} value={name}/></div>
             <div><label htmlFor="name">Пароль</label><input id="name" type="text" onChange={(event)=>{setPassword(event.target.value)}} value={password}/></div>
             <button onClick={()=>{Send()}}>Авторизация</button>
           </div>

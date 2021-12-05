@@ -52,6 +52,10 @@
 .results p{
   width: 100%;
 }
+.reviewP{
+  width: 600px;
+  margin: auto;
+}
 .metrics{
   font-size: 12px;
 }
@@ -69,4 +73,9 @@
   text-align: center;
   position: relative;
   bottom: 230px;
+}
+.review p{
+  width: 570px;
+  margin: auto;
+  margin-bottom: 10px;
 }

@@ -11,11 +11,8 @@ passport.serializeUser((user,done)=>{
 passport.deserializeUser(async (id,done)=>{
     console.log(id)
     try{
-        // console.log('deserialize')
         const result = await Users.findOne({where: {id: `${id}`}})
-        if(result.dataValues){
-            // console.log(result.dataValues)
-            
+        if(result.dataValues){    
             return done(null,result.dataValues.id)
         }
     }
@@ -28,27 +25,18 @@ passport.use(new LocalStrategy(
     async (username, password, done) => {
         try{
             const result = await Users.findOne({where: {name: `${username}`}})
-            // console.log(result.dataValues.password, password)
             if(result === null){
                 return done(null,false)
             }
             else if (result.dataValues.password === password){
-                // if(result.dataValues.roleId == 1){
-                //     return done(null,result.dataValues);
-                // }
-                // else if(result.dataValues.roleId == 2){
-                //    return done(null,result.dataValues); 
-                // }
-                // console.log(result.dataValues.roleId)
-                // return result.dataValues.password
-                return done(null,result.dataValues,{message:'rfn'}); 
+                return done(null,result.dataValues); 
             }
             else{
                 return done(null,false)
             }
         }
         catch(err){
-            console.log('s')
+            console.log('error passport')
             return done(err,false)
         }
     }

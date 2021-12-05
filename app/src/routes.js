@@ -1,12 +1,12 @@
 import React from 'react'
 import {Routes, Route} from 'react-router-dom'
-import MainPage from './pages/MainPage'
-import UserPage from './pages/UserPage'
-import AuthPage from './pages/AuthPage'
-import CreateReview from './pages/CreateReview'
-import AdminPage from './pages/AdminPage'
-import View from './pages/View'
-import TagPage from './pages/TagPage'
+import MainPage from './pages/MainPage/index.js'
+import UserPage from './pages/UserPage/index.js'
+import AuthPage from './pages/AuthPage/index.js'
+import CreateReview from './pages/CreateReview/index.js'
+import AdminPage from './pages/AdminPage/index.js'
+import View from './pages/View/index.js'
+import TagPage from './pages/TagPage/index.js'
 
 export const useRoutes = isAuthenticated => {
   if (isAuthenticated) {

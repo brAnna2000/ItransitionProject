@@ -9,4 +9,22 @@
 }
 a {
     color: #61dafb;
+}   
+/* @media screen and (max-width: 1600px){
+
+ 
 }
+@media screen and (max-width: 480px){
+.tags{
+    width: 400px;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.tagsSpan{
+    margin-right: 10px;
+}
+a {
+    color: #61dafb;
+}
+} */

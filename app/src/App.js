@@ -2,7 +2,7 @@ import './App.css';
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {useRoutes} from './routes';
-import { AdminPage, AuthPage, CreateReview, MainPage, TagPage, UserPage, View } from './pages';
+import { Button, InputGroup, FormControl } from 'react-bootstrap';
 
 function App() {
   const [name, setName] = useState("Катя");
@@ -30,10 +30,18 @@ function App() {
           alert('Неправильное имя или пароль')
         }
         else{
+          localStorage.setItem('loggedIn', true)
           window.location.href = res.url
         }
       }
     )
+  }
+
+  const Exit=()=>{
+    localStorage.removeItem('loggedIn')
+    if(localStorage.getItem('loggedIn')===null){
+      window.location.href = '/'
+    }
   }
 
   useEffect(() => {
@@ -53,14 +61,22 @@ const routes = useRoutes(true);
     <Router>
       <div className={theme}>
         <header>
-        {back == true ? <i className="fas fa-sun" onClick={()=>{Click()}}></i> : <i className="fas fa-moon" onClick={()=>{Click()}}></i>}
-          {routes}
-          <div>
-            <div><label htmlFor="name">Имя123</label><input id="name" type="text" onChange={(event)=>{setName(event.target.value)}} value={name}/></div>
-            <div><label htmlFor="name">Пароль</label><input id="name" type="text" onChange={(event)=>{setPassword(event.target.value)}} value={password}/></div>
-            <button onClick={()=>{Send()}}>Авторизация</button>
+          {back == true ? <i className="fas fa-sun" onClick={()=>{Click()}}></i> : <i className="fas fa-moon" onClick={()=>{Click()}}></i>}
+          {localStorage.getItem('loggedIn') ? <button onClick={()=>{Exit()}} type="button" className="btn btn-primary">Выйти</button> :
+          <div className='authorization'>
+            <div className="input-group mb-3">
+              <span className="input-group-text">Имя</span>
+              <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onChange={(event)=>{setName(event.target.value)}} value={name}/>
+            </div>
+            <div className="input-group mb-3">
+              <span className="input-group-text">Пароль</span>
+              <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onChange={(event)=>{setPassword(event.target.value)}} value={password}/>
+            </div>
+            <button onClick={()=>{Send()}} type="button" className="btn btn-primary">Войти</button>
           </div>
+          }
         </header>
+        {routes}
     </div>
     </Router>
   );

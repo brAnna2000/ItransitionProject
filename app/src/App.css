@@ -1,8 +1,21 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.App{
+  position: relative;
+}
+header{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+  margin-bottom: 30px;
+}
 .light{
   background-color: #282c34;
   color: white;
-  min-height: 100vh;
-  padding-top: 70px;
+  padding-top: 60px;
 }
 .light a{
   color: '#61dafb';
@@ -10,34 +23,13 @@
 .dark{
   background-color: #949aa6;
   color: #30446C;
-  min-height: 100vh;
-  padding-top: 70px;
+  padding-top: 60px;
 }
 .dark a{
   color: #243860;
 }
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 .review{
   width: 600px;
@@ -52,8 +44,137 @@
 .reviewName {
   text-align: left;
 }
-.fa-sun, .fa-moon {
-  position: absolute;
-  top: 40px;
-  right: 50px;
+.input-group{
+  width: 180px;
 }
+.input-group-text{
+  width: 75px;
+}
+.fa-heart{
+  margin-left: 5px;
+}
+.likes{
+  text-align: right;
+}
+/* @media screen and (max-width: 1600px){
+
+}
+@media screen and (max-width: 480px){
+  .App{
+    position: relative;
+  }
+  header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    margin-bottom: 30px;
+  }
+  .light{
+    background-color: #282c34;
+    color: white;
+    padding-top: 60px;
+  }
+  .light a{
+    color: '#61dafb';
+  }
+  .dark{
+    background-color: #949aa6;
+    color: #30446C;
+    padding-top: 60px;
+  }
+  .dark a{
+    color: #243860;
+  }
+  .App-link {
+    color: #61dafb;
+  }
+  .review{
+    width: 400px;
+    border: 1px white solid;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 20px;
+  }
+  .reviewName {
+    text-align: left;
+  }
+  .input-group{
+    width: 130px;
+  }
+  .input-group-text{
+    width: 65px;
+    font-size: 13px;
+  }
+  .form-control{
+    font-size: 11px;
+  }
+  .fa-heart{
+    margin-left: 5px;
+  }
+  .likes{
+    text-align: right;
+  }
+  .btn-primary{
+    width: 65px;
+    font-size: 13px;
+  }
+}
+@media screen and (max-width: 320px){
+  .App{
+    position: relative;
+  }
+  header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    margin-bottom: 30px;
+  }
+  .light{
+    background-color: #282c34;
+    color: white;
+    padding-top: 60px;
+  }
+  .light a{
+    color: '#61dafb';
+  }
+  .dark{
+    background-color: #949aa6;
+    color: #30446C;
+    padding-top: 60px;
+  }
+  .dark a{
+    color: #243860;
+  }
+  .App-link {
+    color: #61dafb;
+  }
+  .review{
+    width: 400px;
+    border: 1px white solid;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 20px;
+  }
+  .reviewName {
+    text-align: left;
+  }
+  .input-group{
+    width: 180px;
+  }
+  .input-group-text{
+    width: 75px;
+  }
+  
+  .fa-heart{
+    margin-left: 5px;
+  }
+  .likes{
+    text-align: right;
+  }
+} */

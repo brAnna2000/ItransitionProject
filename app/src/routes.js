@@ -7,6 +7,7 @@ import CreateReview from './pages/CreateReview'
 import AdminPage from './pages/AdminPage'
 import View from './pages/View'
 import TagPage from './pages/TagPage'
+import SearchPage from './pages/SearchPage'
 
 export const useRoutes = isAuthenticated => {
   if (isAuthenticated) {
@@ -19,6 +20,7 @@ export const useRoutes = isAuthenticated => {
         <Route path="/createreview" element={<CreateReview />} exact></Route>
         <Route path="/view" element={<View />} exact></Route>
         <Route path="/tagpage" element={<TagPage />} exact></Route>
+        <Route path="/search" element={<SearchPage />} exact></Route>
       </Routes>
     )
   }
@@ -26,6 +28,8 @@ export const useRoutes = isAuthenticated => {
     return (
     <Routes>
       <Route path="/" element={<AuthPage />} exact></Route>
+      <Route path="/tagpage" element={<TagPage />} exact></Route>
+      <Route path="/search" element={<SearchPage />} exact></Route>
       <Route to="/" />
     </Routes>
   )

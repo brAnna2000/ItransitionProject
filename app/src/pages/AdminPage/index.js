@@ -1,7 +1,7 @@
 import './AdminPage.css';
-import logo from '../../logo.svg';
 import React, {useState, useEffect} from 'react';
 import UsersPages from '../../components/UsersPages/index'
+import Loader from '../../components/Loader/index';
 
 function AdminPage(props){ 
   const [data, setData] = useState(null);
@@ -13,10 +13,10 @@ function AdminPage(props){
   console.log(data)
   return (
     <div className="App">
-      {!data ? "Loading..." :
-      <header>
+      {!data ? <Loader/> :
+      <div>
         <UsersPages names={data}/>
-      </header>
+      </div>
       }
   </div>
   );

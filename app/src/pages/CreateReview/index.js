@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react';
 import './CreateReview.css';
 import Loader from '../../components/Loader/index';
+
 function CreateReview() {
 let starsObj = {
     1: "fa fa-star",
@@ -78,22 +79,29 @@ const Send=()=>{
 let OptionGroups = ''
 if (data !== null){
     OptionGroups = data.groups.map((option) =>
-    <option value={option}>{option}</option>
+    <option value={option} key={data.groups.indexOf(option)}>{option}</option>
   );
 }
 return (
     
 <div className="App">
     {!data ? <Loader/> :
-    <header>
     <div className='review'>
-        <div><label htmlFor="name">Название обзора</label><input id="name" type="text" onChange={(event)=>{setName(event.target.value)}} value={name}/></div>
-        <div><label htmlFor="name">Теги</label><input id="name" type="text" onChange={(event)=>{setSearch(event.target.value); Filter(search)}} value={search}/></div>
-        <div>{!result ? '': result}</div>
+        <div className="input-group mb-3" id="input-name">
+            <span className="input-group-text" id="inputGroup-sizing-default">Название обзора</span>
+            <input type="text" id='review-name'className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onChange={(event)=>{setName(event.target.value)}} value={name}/>
+        </div>
+        <div className="input-group mb-3" id="input-tags">
+            <span className="input-group-text" id="inputGroup-sizing-default2">Теги</span>
+            <input type="text" id='review-tags' className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" onChange={(event)=>{setSearch(event.target.value); Filter(search)}} value={search}/>
+        </div>
+        <div>
+            {!result ? '': result.map((el)=>el+' ')}
+        </div>
         <span>Группа</span>
-        <select defaultValue={data.groups[0]} size={data.groups.length} name="hero" onChange={(event)=>{setSelect(event.target.value)}}>
+        <select className="form-select" multiple aria-label="multiple select example" defaultValue={data.groups[0]} size={data.groups.length} onChange={(event)=>{setSelect(event.target.value)}}>
             {OptionGroups}
-        </select>
+        </select>           
         <div>Оценка</div>
         <div>
             <span value='1' className={stars[1]} onClick={(event)=>{Rating(event.nativeEvent.target.attributes[0].value)}}></span>
@@ -108,11 +116,9 @@ return (
             <span value='10' className={stars[10]} onClick={(event)=>{Rating(event.nativeEvent.target.attributes[0].value)}}></span>
         </div>
         <div>Оставить отзыв</div>
-        <textarea onChange={(event)=>{setText(event.target.value)}} value={text}></textarea>
-        <div>Картинки</div>
-        <button className='userButton' name='enter' onClick={()=>{Send()}}>Сохранить</button>
+        <textarea id="textarea-review" className="form-control" aria-label="With textarea" onChange={(event)=>{setText(event.target.value)}} value={text}></textarea>
+        <button onClick={()=>{Send()}} type="button" className="btn btn-primary userButton">Сохранить</button>
     </div>
-    </header>
     }
 </div>
 );

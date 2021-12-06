@@ -21,10 +21,6 @@ let rwvtags = '';
 let objG = {};
 let grade = '';
 
-async function getRoles(a) {
-  a = await Roles.findAll();
-  return a;
-}
 async function getUsers(a) {
   a = await Users.findAll();
   return a;
@@ -57,12 +53,16 @@ async function getReviews(a) {
   a = await Reviews.findAll();
   return a;
 }
-async function getReview(a, b) {
-  a = await Reviews.findOne({where: {id: b}});
+async function getReviewsByName(a,b) {
+  a = await Reviews.findAll({where: {name: b}});
   return a;
 }
-async function getLastReview(a) {
-  a = await Reviews.findOne({where: {id: 2}});
+async function getReviewsByTagName(a,b) {
+  a = await ReviewsTags.findAll({where: {name: b}});
+  return a;
+}
+async function getReview(a, b) {
+  a = await Reviews.findOne({where: {id: b}});
   return a;
 }
 async function getUserReviews(a,b) {
@@ -145,22 +145,21 @@ app.use((req,res, next)=>{
 app.use(passport.initialize())
 app.use(passport.session())
 app.use('/auth', authRoute);
-
 app.listen(PORT,()=>{
   console.log(`server starting on port ${PORT}`)
 })
-
 app.get('/userpage/*',(req,res)=>{
+    console.log(req.path)
     let id = req.path.slice('/userpage/'.length)
     if(''==id){
       id = req.user;
     }
-    console.log('userpage.id='+id);
+    
     getUserReviews(reviews,Number(id)).then(async (reviews)=>{
     let reviewsObj = [];
-    
     for(i = 0;i < reviews.length;i++){
       let obj = {};
+      obj.id = reviews[i].dataValues.id;
       obj.name = reviews[i].dataValues.name;
       obj.grade = reviews[i].dataValues.grade;
       obj.text = reviews[i].dataValues.text;
@@ -194,7 +193,6 @@ app.get('/userpage/*',(req,res)=>{
   })
   
 }) 
-
 app.post('/userpage/change',(req,res)=>{
   Reviews.update({ text: req.body.text }, {
     where: {
@@ -203,18 +201,37 @@ app.post('/userpage/change',(req,res)=>{
     }
   })
 })
-
 app.post('/userpage/delete',(req,res)=>{
   Reviews.destroy({
     where: {
       usersId: req.body.userId,
       name: req.body.name
     }
-  }).then((res) => {
-    console.log(res);
-  });
+  })
 })
-
+app.get('/tagpage',(req,res)=>{
+  console.log(req.query.tag)
+  getTagByName(tag,req.query.tag).then(async (tag)=>{
+    await getReviewsByTag(reviews,tag.dataValues.id).then(async (reviews)=>{
+      let revByTag = [];
+      for(i=0;i<reviews.length;i++){
+        let obj = {}
+        await getReview(reviews,reviews[i].dataValues.reviewsId).then(async (reviews)=>{
+          obj.name = reviews.dataValues.name;
+          obj.grade = reviews.dataValues.grade;
+          obj.text = reviews.dataValues.text;
+          obj.likes = reviews.dataValues.likes;
+          obj.userId = reviews.dataValues.usersId;
+          await getGroup(groups,reviews.dataValues.groupsId).then(groups=>{
+            obj.group = groups.dataValues.name;       
+          })
+        })
+        revByTag.push(obj)
+      }
+      res.json(revByTag)
+    })
+  })
+}) 
 app.get('/createreview',(req,res)=>{
   let obj = {}
   let tagsList = [];
@@ -233,19 +250,13 @@ app.get('/createreview',(req,res)=>{
     res.json(obj)
   })
 }) 
-
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
-
-app.post('/view',(req,res)=>{
-  data = req.body;
-  console.log(data)
+app.get('/viewpage',(req,res)=>{
+  console.log(req.query.id)
+  data = req.query.id;
   res.json(data)
-  app.get('/view',(req,res)=>{
-    console.log('RES!!!!  ',res.body)
-  })
 })
-
 app.post('/createreview',(req,res)=>{
   data = req.body;
   getTagByName(tags, data.tags[0]).then(tags=>{
@@ -279,7 +290,6 @@ app.post('/createreview',(req,res)=>{
     })
   })
 }) 
-
 app.get('/mainpage',(req,res)=>{
   getReviews(reviews).then(async (reviews)=>{
     let lastReview = {};
@@ -287,7 +297,6 @@ app.get('/mainpage',(req,res)=>{
     lastReview.grade = reviews[reviews.length-1].dataValues.grade;
     lastReview.text = reviews[reviews.length-1].dataValues.text;
     lastReview.likes = reviews[reviews.length-1].dataValues.likes;
-
     await getUser(users,reviews[reviews.length-1].dataValues.usersId).then(users=>{
       lastReview.userName = users.dataValues.name;
       lastReview.userSurname = users.dataValues.surname;
@@ -300,18 +309,16 @@ app.get('/mainpage',(req,res)=>{
         return
       }
       else{
-        console.log(tags)
         await getTag(tag,tags[0].dataValues.tagsId).then(tag=>{
           if(tag===['err']){
             return
           }
           else{
-            lastReview.tags = tag.dataValues.name;
+            lastReview.tags = [tag.dataValues.name];
           }
         })
       }
     })
-       
     getBestReview(reviews).then(async (reviews)=>{
       let bestReview = {};
       bestReview.grade = reviews[0].dataValues.grade;
@@ -335,13 +342,12 @@ app.get('/mainpage',(req,res)=>{
               return
             }
             else{
-              bestReview.tags = tag.dataValues.name;
+              bestReview.tags = [tag.dataValues.name];
               return bestReview
             }       
           })
         }
       })
-
       let tagsCloud = [];
       getCurrentTags(tags).then(tags=>{
         for(i = 0;i < tags.length;i++){
@@ -353,7 +359,6 @@ app.get('/mainpage',(req,res)=>{
     })
   })
 })
-
 app.get('/adminpage',(req,res)=>{
   getUsers(users).then(users=>{
     let usersList = [];
@@ -374,18 +379,14 @@ app.get('/adminpage',(req,res)=>{
     res.json(usersList)
   })
 }) 
-
 app.post('/searchtag',(req,res)=>{
   data = req.body;
   getTagByName(tags, data[0]).then(async (tags)=>{
     let reviewsByTag = [];
     let rev = {};
-
     await getReviewsByTag(reviews,tags.dataValues.id).then(async (reviews)=>{
-      console.log(reviews)
       for(i=0;i<reviews.length;i++){
         rev.id = reviews[i].dataValues.reviewsId
-        
         await getReview(reviews,reviews[i].dataValues.reviewsId).then(async (reviews)=>{
           rev.name = reviews.dataValues.name;
           rev.grade = reviews.dataValues.grade;
@@ -393,20 +394,56 @@ app.post('/searchtag',(req,res)=>{
           rev.likes = reviews.dataValues.likes;
           rev.usersId = reviews.dataValues.usersId;
           rev.groupsId = reviews.dataValues.groupsId;
-
           await getUser(users,rev.usersId).then(users=>{
             rev.userName = users.dataValues.name;
             rev.userSurname = users.dataValues.surname;
           })
-
           await getReviewGroup(groups,rev.groupsId).then(groups=>{
             rev.group = groups.dataValues.name;
           })
         }) 
         reviewsByTag.push(rev)
       }
-      console.log(reviewsByTag)
       res.json(reviewsByTag)
     })
+  })
+})
+app.post('/search',(req,res)=>{
+  let data = req.body[0];
+  getReviewsByName(reviews,data).then(async (reviews)=>{
+    let reviewsObj = [];
+    for(i = 0;i < reviews.length;i++){
+      let obj = {};
+      obj.id = reviews[i].dataValues.id;
+      obj.name = reviews[i].dataValues.name;
+      obj.grade = reviews[i].dataValues.grade;
+      obj.text = reviews[i].dataValues.text;
+      obj.likes = reviews[i].dataValues.likes;
+      obj.userId = reviews[i].dataValues.usersId;
+      await getUser(users,reviews[i].dataValues.usersId).then(users=>{
+        obj.userName = users.dataValues.name;
+        obj.userSurname = users.dataValues.surname;
+      })
+      await getGroup(groups,reviews[i].dataValues.groupsId).then(groups=>{
+        obj.group = groups.dataValues.name;       
+      })
+      await getReviewsTags(tags,reviews[i].dataValues.id).then(async (tags)=>{
+        obj.tags = [];
+        if(tags.length == 0){
+          return obj.tags.push('')
+        }
+        else{      
+          for(j=0;j<tags.length;j++){
+            await getTag(tag,tags[j].dataValues.tagsId).then(tag=>{
+              obj.tags.push(tag.dataValues.name)
+            })
+          }
+        }
+      }).catch(function (err) {
+        console.log('err1')
+      }); 
+      reviewsObj.push(obj);
+    }
+    res.json(reviewsObj)
   })
 })

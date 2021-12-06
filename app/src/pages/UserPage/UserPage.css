@@ -1,29 +1,5 @@
-body{
-    background-color: #282c34;
-}
-.App{
-    color: white;
-    min-height: 100vh;
-}
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-.App-logo {
-    animation: App-logo-spin infinite 20s linear;
-}
-}
 .App-link {
     color: #61dafb;
-}
-@keyframes App-logo-spin {
-from {
-    transform: rotate(0deg);
-}
-to {
-    transform: rotate(360deg);
-}
 }
 .review{
     width: 600px;
@@ -46,6 +22,7 @@ to {
     width: 600px;
     margin: auto;
     margin-bottom: 20px;
+    position: relative;
 }
 .sort span, .filter span{
     margin-right: 10px;
@@ -54,7 +31,7 @@ to {
     display: inline-flex;
     justify-content: space-between;
 }
-textarea{
+#textarea-review{
     width: 580px;
     height: 100px;
     background-color: transparent;
@@ -63,11 +40,113 @@ textarea{
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
 }
-.new{
-    position: absolute;
-    top: 40px;
-    right: 40px;
+#searchButton{
+    width: 240px;
 }
-.new span{
+#new, #searchButton{
+    position: absolute;
+    right: 0px;
+    top: -7px;
+}
+#new span{
     margin-right: 20px;
 }
+#basic-addon2{
+    margin-right: 0;
+}
+#inputGroup-sizing-default{
+    width: 150px;
+}
+#inputGroup-sizing-default2{
+    width: 60px;
+}
+#review-name{
+    width: 50px;
+}
+#review-name{
+    width: 50px;
+}
+#input-name{
+    width: 310px;
+}
+#input-tags{
+    width: 150px;
+}    
+/* @media screen and (max-width: 480px){
+
+}
+@media screen and (max-width: 1600px){
+.review{
+    width: 400px;
+    border: 1px white solid;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.reviewName {
+    text-align: left;
+}
+.icons i{
+    margin-right: 10px;
+}
+.sort, .filter{
+    width: 400px;
+    margin: auto;
+    margin-bottom: 20px;
+    position: relative;
+}
+.sort span, .filter span{
+    margin-right: 10px;
+}
+.fusion{
+    display: inline-flex;
+    justify-content: space-between;
+}
+#textarea-review{
+    width: 380px;
+    height: 100px;
+    background-color: transparent;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+#searchButton{
+    width: 240px;
+}
+#new, #searchButton{
+    position: absolute;
+    right: 0px;
+    top: -7px;
+    width: 132px;
+    height: 38px;
+}
+#new span{
+    margin-right: 20px;
+}
+#basic-addon2{
+    margin-right: 0;
+}
+#inputGroup-sizing-default{
+    width: 150px;
+}
+#inputGroup-sizing-default2{
+    width: 60px;
+}
+#review-name{
+    width: 50px;
+}
+#review-name{
+    width: 50px;
+}
+#input-name{
+    width: 310px;
+}
+#input-tags{
+    width: 150px;
+}    
+} */

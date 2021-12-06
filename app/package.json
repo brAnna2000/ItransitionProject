@@ -36,5 +36,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://ec2-3-67-86-193.eu-central-1.compute.amazonaws.com:3001/"
+  "proxy": "http://localhost:3001/"
 }
